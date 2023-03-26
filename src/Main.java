@@ -3,8 +3,8 @@ class Main {
     public static void main(String[] args) {
         AVLTree tree = new AVLTree();
 
-            /* Constructing tree given in the above figure
-            * 15, 25, 28, 30, 35, 40, 45, 50, 55, 60, 70*/
+        /* Constructing tree given in the above figure
+         * 15, 25, 28, 30, 35, 40, 45, 50, 55, 60, 70*/
 //        tree.root = tree.insert(tree.root, 30);
 //        tree.root = tree.insert(tree.root, 28);
 //        tree.root = tree.insert(tree.root, 35);
@@ -57,7 +57,7 @@ class Main {
         tree.root = tree.insert(tree.root, 50);
         tree.root = tree.insert(tree.root, 66);
         tree.root = tree.insert(tree.root, 70);
-                tree.root = tree.insert(tree.root, 90);
+        tree.root = tree.insert(tree.root, 90);
 
 
 //        tree.inorder(tree.root);
@@ -67,15 +67,31 @@ class Main {
         tree.postorder(tree.root);
 
 
-        Scanner  scanner = new Scanner(System.in); // Create a Scanner object to read input from the keyboard
+        Scanner scanner = new Scanner(System.in); // Create a Scanner object to read input from the keyboard
         System.out.print("What key you want to find?");
         int num = scanner.nextInt(); // Read an integer from the keyboard
-Node result = tree.search(tree.root, num);
+        Node result = tree.search(tree.root, num);
         if (result != null) {
             System.out.println("Found: " + result.key);
         } else {
             System.out.println("Not found");
         }
 
+        //10, 18, 7, 15, 16, 30, 25, 40, 60
+
+        RedBlackTree<Integer> tree2 = new RedBlackTree<>();
+        tree2.insert(10);
+        tree2.insert(18);
+        tree2.insert(7);
+        tree2.insert(15);
+        tree2.insert(16);
+        tree2.insert(30);
+        tree2.insert(25);
+        tree2.insert(40);
+        tree2.insert(60);
+
+        tree2.postOrderTraversal(tree2.root);
+
     }
+
 }
