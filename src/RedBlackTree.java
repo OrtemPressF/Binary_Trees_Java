@@ -15,12 +15,20 @@ public class RedBlackTree<T extends Comparable<T>> {
 
         if (value.compareTo(node.value) < 0) {
             node.left = insertNode(node.left, value);
-        }  else if (value.compareTo(node.value) > 0) {
+        } else if (value.compareTo(node.value) > 0) {
             node.right = insertNode(node.right, value);
         }
-        return getNode(node);
+        if (isRed(node.right) && !isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+        if (isRed(node.left) && isRed(node.left.left)) {
+            node = rotateRight(node);
+        }
+        if (isRed(node.left) && isRed(node.right)) {
+            flipColors(node);
+        }
+        return node;
     }
-
 
     private boolean isRed(Node node) {
         if (node == null) {
@@ -85,7 +93,8 @@ public class RedBlackTree<T extends Comparable<T>> {
     public void delete(T value) {
         root = deleteNode(root, value);
     }
-     Node deleteNode(Node node, T value) {
+
+    private Node deleteNode(Node node, T value) {
         if (node == null) {
             return null;
         }
@@ -106,22 +115,19 @@ public class RedBlackTree<T extends Comparable<T>> {
             }
         }
 
-         return getNode(node);
-     }
-
-    public Node getNode(Node node) {
         if (isRed(node.right) && !isRed(node.left)) {
             node = rotateLeft(node);
-        }
-        if (isRed(node.left) && isRed(node.right)) {
-            flipColors(node);
         }
         if (isRed(node.left) && isRed(node.left.left)) {
             node = rotateRight(node);
         }
+        if (isRed(node.left) && isRed(node.right)) {
+            flipColors(node);
+        }
 
         return node;
     }
+
     private Node findMinNode(Node node) {
         while (node.left != null) {
             node = node.left;
@@ -142,6 +148,7 @@ public class RedBlackTree<T extends Comparable<T>> {
         T value;
         Node left, right;
         boolean color;
+
         Node(T value) {
             this.value = value;
             this.color = RED;
