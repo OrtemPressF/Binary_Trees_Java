@@ -1,8 +1,6 @@
 public class RedBlackTree<T extends Comparable<T>> {
-
-    private static final boolean RED = true;
-    private static final boolean BLACK = false;
-
+    boolean RED = true;
+    boolean BLACK = false;
     public Node root;
 
     public void insert(T value) {
@@ -17,22 +15,12 @@ public class RedBlackTree<T extends Comparable<T>> {
 
         if (value.compareTo(node.value) < 0) {
             node.left = insertNode(node.left, value);
-        } else if (value.compareTo(node.value) > 0) {
+        }  else if (value.compareTo(node.value) > 0) {
             node.right = insertNode(node.right, value);
         }
-
-        if (isRed(node.right) && !isRed(node.left)) {
-            node = rotateLeft(node);
-        }
-        if (isRed(node.left) && isRed(node.left.left)) {
-            node = rotateRight(node);
-        }
-        if (isRed(node.left) && isRed(node.right)) {
-            flipColors(node);
-        }
-
-        return node;
+        return getNode(node);
     }
+
 
     private boolean isRed(Node node) {
         if (node == null) {
@@ -79,6 +67,69 @@ public class RedBlackTree<T extends Comparable<T>> {
         return false;
     }
 
+    public Node search(T value) {
+        Node current = root;
+        while (current != null) {
+            if (value.compareTo(current.value) < 0) {
+                current = current.left;
+            } else if (value.compareTo(current.value) > 0) {
+                current = current.right;
+            } else {
+                return current;
+            }
+        }
+        return null;
+    }
+
+
+    public void delete(T value) {
+        root = deleteNode(root, value);
+    }
+     Node deleteNode(Node node, T value) {
+        if (node == null) {
+            return null;
+        }
+
+        if (value.compareTo(node.value) < 0) {
+            node.left = deleteNode(node.left, value);
+        } else if (value.compareTo(node.value) > 0) {
+            node.right = deleteNode(node.right, value);
+        } else {
+            if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            } else {
+                Node minRightNode = findMinNode(node.right);
+                node.value = minRightNode.value;
+                node.right = deleteNode(node.right, minRightNode.value);
+            }
+        }
+
+         return getNode(node);
+     }
+
+    public Node getNode(Node node) {
+        if (isRed(node.right) && !isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+        if (isRed(node.left) && isRed(node.right)) {
+            flipColors(node);
+        }
+        if (isRed(node.left) && isRed(node.left.left)) {
+            node = rotateRight(node);
+        }
+
+        return node;
+    }
+    private Node findMinNode(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
+
     public void postOrderTraversal(RedBlackTree.Node node) {
         if (node != null) {
             postOrderTraversal(node.left);
@@ -87,12 +138,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         }
     }
 
-
     public class Node {
         T value;
         Node left, right;
         boolean color;
-
         Node(T value) {
             this.value = value;
             this.color = RED;
