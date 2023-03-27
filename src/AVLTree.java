@@ -2,10 +2,18 @@
 class AVLTree {
     Node root;
 
+
     int height(Node node) {                // Get the height of a node
         if (node == null)
             return 0;
         return node.height;
+    }
+
+    Node findMin(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
     }
 
     int balanceFactor(Node node) {                // Get the balance factor of a node
@@ -126,12 +134,7 @@ class AVLTree {
         return node;
     }
 
-    Node findMin(Node node) {
-        while (node.left != null) {
-            node = node.left;
-        }
-        return node;
-    }
+
 
 
     //    void inorder(Node node) {
