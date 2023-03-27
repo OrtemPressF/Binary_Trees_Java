@@ -79,7 +79,7 @@ public class HashTable {
         }
     }
 
-    public void delete(String key) {
+    public void delete(HashTable value, String key) {
         int index = getIndex(key);
 
         LinkedList<HTObject> bucket = table[index];
